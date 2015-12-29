@@ -2,8 +2,8 @@
 # of 128 bits, as explained in the paper "Cycling Attacks on GCM, GHASH and 
 # Other Polynomial MACs and Hashes": https://eprint.iacr.org/2011/202.pdf
 
-# This snippet requires the Crypto module:
-# pip install Crypto
+# This snippet requires the pycrypto package:
+# pip install pycrypto
 
 from Crypto.Cipher import AES
 from Crypto.Util.number import bytes_to_long, long_to_bytes
@@ -40,8 +40,10 @@ def gf_2_128_order(x):
 # Expects an AES key as a binary string and a threshold which should be a 
 # number between 1 and 128. It roughly measures the number of bits of security
 # that the key is required to have in GCM.
-    
-def is_key_safe(key, threshold=126):
+
+THRESHOLD_DEFAULT = 126
+
+def is_key_safe(key, threshold=THRESHOLD_DEFAULT):
     # Threshold should be a number between 1 and 128. 
     assert threshold >= 1
     assert threshold <= 128
@@ -54,10 +56,11 @@ def is_key_safe(key, threshold=126):
     
 # should be False, this is a key with only 93 bits security from the paper:
 unsafe_key = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xEC\x69\x7A\xA8'
+print "Testing a known unsafe key, must result in False:"
 print is_key_safe(unsafe_key)
 print
 
-# test several random keys for security:
+print "Testing several random keys for good security (>= %d bits):" % THRESHOLD_DEFAULT
 for k in range(200):
     k = long_to_bytes(random.getrandbits(256),32)
     print is_key_safe(k)
