@@ -63,15 +63,16 @@ def is_key_safe(key, threshold=THRESHOLD_DEFAULT):
     return group_order >= (1 << threshold)
 
 
-# Tests ########################################################################
+if __name__ == '__main__':
+    # run some tests
     
-# should be False, this is a key with only 93 bits security from the paper:
-unsafe_key = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xEC\x69\x7A\xA8'
-print "Testing a known unsafe key, must result in False:"
-print is_key_safe(unsafe_key)
-print
+    # should be False, this is a key with only 93 bits security from the paper:
+    unsafe_key = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xEC\x69\x7A\xA8'
+    print "Testing a known unsafe key, must result in False:"
+    print is_key_safe(unsafe_key)
+    print
 
-print "Testing several random keys for good security (>= %d bits):" % THRESHOLD_DEFAULT
-for k in range(200):
-    k = long_to_bytes(random.getrandbits(256), 32)
-    print is_key_safe(k)
+    print "Testing several random keys for good security (>= %d bits):" % THRESHOLD_DEFAULT
+    for k in range(200):
+        k = long_to_bytes(random.getrandbits(256), 32)
+        print is_key_safe(k)
