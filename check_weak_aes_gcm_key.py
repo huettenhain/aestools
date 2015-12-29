@@ -25,18 +25,22 @@ def gf_2_128_mul(x, y):
 
 
 def gf_2_128_exp(x, n):
-    if n == 0: return 1
-    q,r = divmod(n,2)
-    return gf_2_128_mul(x, gf_2_128_exp(gf_2_128_mul(x,x), q)) if r == 1 \
-      else                 gf_2_128_exp(gf_2_128_mul(x,x), q)
+    if n == 0:
+        return 1
+    q, r = divmod(n, 2)
+    if r == 1:
+        return gf_2_128_mul(x, gf_2_128_exp(gf_2_128_mul(x,x), q))
+    else:
+        return                 gf_2_128_exp(gf_2_128_mul(x,x), q)
 
 
 def gf_2_128_order(x):
     factors = (3, 5, 17, 257, 641, 65537, 274177, 6700417, 67280421310721)
     order = 1
     for factor in factors:
-        n = ((1<<128)-1) / factor
-        if gf_2_128_exp(x, n) != 1: order *= factor
+        n = ((1 << 128) - 1) / factor
+        if gf_2_128_exp(x, n) != 1:
+            order *= factor
     return order
 
 
@@ -54,9 +58,9 @@ def is_key_safe(key, threshold=THRESHOLD_DEFAULT):
     assert threshold >= 1
     assert threshold <= 128
     c = AES.new(key, AES.MODE_ECB)
-    h = bytes_to_long(c.encrypt("\x00"*16))
+    h = bytes_to_long(c.encrypt("\x00" * 16))
     group_order = gf_2_128_order(h)
-    return (group_order >= (1 << threshold))
+    return group_order >= (1 << threshold)
 
 
 # Tests ########################################################################
@@ -69,5 +73,5 @@ print
 
 print "Testing several random keys for good security (>= %d bits):" % THRESHOLD_DEFAULT
 for k in range(200):
-    k = long_to_bytes(random.getrandbits(256),32)
+    k = long_to_bytes(random.getrandbits(256), 32)
     print is_key_safe(k)
