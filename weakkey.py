@@ -34,16 +34,16 @@ def gf_2_128_exp(x, n):
         return 1
     q, r = divmod(n, 2)
     if r == 1:
-        return gf_2_128_mul(x, gf_2_128_exp(gf_2_128_mul(x,x), q))
+        return gf_2_128_mul(x, gf_2_128_exp(gf_2_128_mul(x, x), q))
     else:
-        return                 gf_2_128_exp(gf_2_128_mul(x,x), q)
+        return                 gf_2_128_exp(gf_2_128_mul(x, x), q)
 
 
 def gf_2_128_order(x):
     factors = (3, 5, 17, 257, 641, 65537, 274177, 6700417, 67280421310721)
     order = 1
     for factor in factors:
-        n = divmod(((1 << 128) - 1),factor)[0]
+        n = ((1 << 128) - 1) // factor
         if gf_2_128_exp(x, n) != 1:
             order *= factor
     return order
@@ -58,6 +58,13 @@ def is_key_safe(key, threshold=THRESHOLD_DEFAULT):
     Expects an AES key as a binary string and a threshold which should be a 
     number between 1 and 128. It roughly measures the number of bits of security
     that the key is required to have in GCM.
+
+    The weakness described in the paper is against the authentication in GCM.
+    The strength of the authentication tag of GCM is at most 128 bit, because
+    the tag is a 128 bit value computed inside a finite field of size 2^128.
+    The size of the AES key has no influence on this, it is inherent to GCM.
+    See also the wikipedia page on GCM, second paragraph:
+    https://en.wikipedia.org/wiki/Galois/Counter_Mode#Security
     """
     # Threshold should be a number between 1 and 128. 
     assert threshold >= 1
