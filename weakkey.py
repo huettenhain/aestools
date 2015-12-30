@@ -7,6 +7,11 @@ This snippet requires the pycrypto package:
 pip install pycrypto
 """
 
+from __future__ import print_function
+
+import sys
+from binascii import hexlify, unhexlify
+
 from Crypto.Cipher import AES
 from Crypto.Util.number import bytes_to_long, long_to_bytes
 from Crypto.Random import random
@@ -63,16 +68,20 @@ def is_key_safe(key, threshold=THRESHOLD_DEFAULT):
     return group_order >= (1 << threshold)
 
 
-if __name__ == '__main__':
-    # run some tests
-    
-    # should be False, this is a key with only 93 bits security from the paper:
+def selftest():
     unsafe_key = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xEC\x69\x7A\xA8'
-    print "Testing a known unsafe key, must result in False:"
-    print is_key_safe(unsafe_key)
-    print
+    assert not is_key_safe(unsafe_key), "self-test failed with unsafe key"
+    safe_key = b'\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xaa\xbb\xcc\xdd\xee\xff'
+    assert is_key_safe(safe_key), "self-test failed with safe key"
 
-    print "Testing several random keys for good security (>= %d bits):" % THRESHOLD_DEFAULT
-    for k in range(200):
-        k = long_to_bytes(random.getrandbits(256), 32)
-        print is_key_safe(k)
+
+if __name__ == '__main__':
+    if len(sys.argv) == 2:
+        selftest()
+        key = unhexlify(sys.argv[1].encode('ascii'))
+        assert len(key) in (16, 32)
+        assert isinstance(key, bytes)
+        safe = is_key_safe(key)
+        print("%s is safe: %r" % (hexlify(key).decode('ascii'), safe))
+    else:
+        print("Usage: python weakkey.py 00112233445566778899aabbccddeeff")
