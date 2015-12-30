@@ -34,9 +34,9 @@ def gf_2_128_exp(x, n):
         return 1
     q, r = divmod(n, 2)
     if r == 1:
-        return gf_2_128_mul(x, gf_2_128_exp(gf_2_128_mul(x,x), q))
+        return gf_2_128_mul(x, gf_2_128_exp(gf_2_128_mul(x, x), q))
     else:
-        return                 gf_2_128_exp(gf_2_128_mul(x,x), q)
+        return                 gf_2_128_exp(gf_2_128_mul(x, x), q)
 
 
 def gf_2_128_order(x):
