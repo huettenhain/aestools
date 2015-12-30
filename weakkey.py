@@ -43,7 +43,7 @@ def gf_2_128_order(x):
     factors = (3, 5, 17, 257, 641, 65537, 274177, 6700417, 67280421310721)
     order = 1
     for factor in factors:
-        n = ((1 << 128) - 1) / factor
+        n = divmod(((1 << 128) - 1),factor)[0]
         if gf_2_128_exp(x, n) != 1:
             order *= factor
     return order
