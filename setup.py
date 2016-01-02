@@ -6,7 +6,7 @@ with open('README.txt') as f:
 
 
 setup_args = dict(
-    name="weakkey",
+    name="aestools",
     version='0.0.0',
     description='AES GCM weak key checker',
     long_description=long_description,
@@ -29,7 +29,7 @@ Programming Language :: Python :: 2.7
 Programming Language :: Python :: 3
 Programming Language :: Python :: 3.4
 Topic :: Security :: Cryptography""".splitlines(),
-    py_modules=['weakkey'],
+    py_modules=['aestools'],
     install_requires=['pycrypto', ],
 )
 

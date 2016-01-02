@@ -91,4 +91,4 @@ if __name__ == '__main__':
         safe = is_key_safe(key)
         print("%s is safe: %r" % (hexlify(key).decode('ascii'), safe))
     else:
-        print("Usage: python weakkey.py 00112233445566778899aabbccddeeff")
+        print("Usage: python %s 00112233445566778899aabbccddeeff" % sys.argv[0])
