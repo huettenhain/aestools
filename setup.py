@@ -33,6 +33,11 @@ Topic :: Security :: Cryptography""".splitlines(),
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     install_requires=['pycrypto', ],
+    entry_points={
+        'console_scripts': [
+            'aestools = aestools.cli:main',
+        ]
+    },
 )
 
 
