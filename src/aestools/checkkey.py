@@ -1,10 +1,5 @@
 """
-Test for weak AES keys when used in Galois Counter Mode with a block size
-of 128 bits, as explained in the paper "Cycling Attacks on GCM, GHASH and 
-Other Polynomial MACs and Hashes": https://eprint.iacr.org/2011/202.pdf
-
-This snippet requires the pycrypto package:
-pip install pycrypto
+Test for weak AES GCM keys.
 """
 
 from __future__ import print_function

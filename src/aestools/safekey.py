@@ -1,5 +1,5 @@
 """
-Generate a key that is not weak.
+Generate a AES GCM key that is not weak.
 """
 
 import os
