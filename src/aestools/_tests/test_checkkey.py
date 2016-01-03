@@ -1,6 +1,6 @@
 import pytest
 
-from aestools import is_key_safe
+from aestools.checkkey import is_key_safe
 
 THRESHOLD = 126
 

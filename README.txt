@@ -1,9 +1,15 @@
-Test for weak AES keys when used in Galois Counter Mode with a block size
+aestools
+========
+
+aestools check KEY
+------------------
+
+Test for weak AES key when used in Galois Counter Mode with a block size
 of 128 bits, as explained in the paper "Cycling Attacks on GCM, GHASH and 
 Other Polynomial MACs and Hashes": https://eprint.iacr.org/2011/202.pdf
 
-The tests require tox and py.test:
+aestools generate BITS
+----------------------
 
-pip install tox pytest
-tox
+Generate safe key of BITS length which is above a specific strength threshold.
 
