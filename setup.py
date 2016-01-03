@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 with open('README.txt') as f:
@@ -8,13 +8,13 @@ with open('README.txt') as f:
 setup_args = dict(
     name="aestools",
     version='0.0.0',
-    description='AES GCM weak key checker',
+    description='AES tools (GCM weak key checker / safe key generator)',
     long_description=long_description,
     author="Jesko Hüttenhain",
     author_email="rattle@nullteilerfrei.de",
     url="https://github.com/lichtkegel/WeakAESGCM",
     license="PSF License",
-    keywords="aes gcm weak key check crypto",
+    keywords="crypto aes gcm weak key checker safe key generator",
     platforms="any",
     classifiers="""\
 Development Status :: 3 - Alpha
@@ -28,12 +28,13 @@ Programming Language :: Python :: 2
 Programming Language :: Python :: 2.7
 Programming Language :: Python :: 3
 Programming Language :: Python :: 3.4
+Programming Language :: Python :: 3.5
 Topic :: Security :: Cryptography""".splitlines(),
-    py_modules=['aestools'],
+    package_dir={"": "src"},
+    packages=find_packages(where="src"),
     install_requires=['pycrypto', ],
 )
 
 
 if __name__ == '__main__':
     setup(**setup_args)
-
