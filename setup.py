@@ -1,5 +1,6 @@
-from setuptools import setup, find_packages
+# coding=utf8
 
+from setuptools import setup, find_packages
 
 with open('README.txt') as f:
     long_description = f.read()
