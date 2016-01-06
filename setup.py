@@ -8,7 +8,7 @@ with open('README.txt') as f:
 
 setup_args = dict(
     name="aestools",
-    version='0.0.0',
+    version='0.1.0',
     description='AES tools (GCM weak key checker / safe key generator)',
     long_description=long_description,
     author="Jesko Hüttenhain",
