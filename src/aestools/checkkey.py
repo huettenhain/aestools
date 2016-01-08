@@ -43,6 +43,12 @@ def gf_2_128_order(x):
     
 THRESHOLD_DEFAULT = 126
 
+def bit_strength_gcm_auth(key):
+    c = AES.new(key, AES.MODE_ECB)
+    h = bytes_to_long(c.encrypt("\x00" * 16))
+    group_order = gf_2_128_order(h)
+    return group_order.bit_length() - 1
+
 def is_key_safe(key, threshold=THRESHOLD_DEFAULT):
     """
     Expects an AES key as a binary string and a threshold which should be a 
@@ -59,10 +65,7 @@ def is_key_safe(key, threshold=THRESHOLD_DEFAULT):
     # Threshold should be a number between 1 and 128. 
     assert threshold >= 1
     assert threshold <= 128
-    c = AES.new(key, AES.MODE_ECB)
-    h = bytes_to_long(c.encrypt("\x00" * 16))
-    group_order = gf_2_128_order(h)
-    return group_order >= (1 << threshold)
+    return bit_strength_gcm_auth(key) >= threshold
 
 
 def selftest():
