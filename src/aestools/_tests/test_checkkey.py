@@ -9,7 +9,7 @@ THRESHOLD = 126
 
 def test_weak():
     # this is a key with only 93 bits security from the paper:
-    unsafe_key = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xEC\x69\x7A\xA8'
+    unsafe_key = unhexlify('000000000000000000000000EC697AA8')
     assert not is_key_safe(unsafe_key)
     assert not is_key_safe(unsafe_key, threshold=THRESHOLD)
     assert not is_key_safe(unsafe_key, threshold=94)
@@ -18,7 +18,7 @@ def test_weak():
 
 def test_strong():
     # most keys should be strong
-    safe_key = b'\xfe\xde\xec\x12\x34\x56\x78\x00\xaa\xbb\xcc\xdd\xee\xff\x42\x23'
+    safe_key = unhexlify('fedeec1234567800aabbccddeeff4223')
     assert is_key_safe(safe_key)
     assert is_key_safe(safe_key, threshold=THRESHOLD)
 
