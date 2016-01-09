@@ -21,7 +21,7 @@ def gf_2_128_mul(x, y):
 
 def gf_2_128_exp(x, n):
     if n == 0:
-        return 1
+        return (1<<127)
     q, r = divmod(n, 2)
     if r == 1:
         return gf_2_128_mul(x, gf_2_128_exp(gf_2_128_mul(x, x), q))
@@ -34,7 +34,7 @@ def gf_2_128_order(x):
     order = 1
     for factor in factors:
         n = ((1 << 128) - 1) // factor
-        if gf_2_128_exp(x, n) != 1:
+        if gf_2_128_exp(x, n) != (1<<127):
             order *= factor
     return order
 
