@@ -1,6 +1,8 @@
 import pytest
 
-from aestools.checkkey import is_key_safe
+from binascii import hexlify, unhexlify
+
+from aestools.checkkey import is_key_safe, bit_strength_gcm_auth
 
 THRESHOLD = 126
 
@@ -27,3 +29,18 @@ def test_invalid_threshold():
         is_key_safe(key, threshold=0)
     with pytest.raises(AssertionError):
         is_key_safe(key, threshold=129)
+
+
+def test_strength():
+    keys_strengths = [
+        # keys and strengths as mentioned in the paper
+        ('00000000000000000000000000000002', 126),
+        ('00000000000000000000000000000003', 125),
+        ('000000000000000000000000243E8B40', 96),
+        ('0000000000000000000000003748CFCE', 96),
+        ('00000000000000000000000042873CC8', 93),
+        ('000000000000000000000000EC697AA8', 93),
+    ]
+    for key, strength in keys_strengths:
+        key = unhexlify(key)
+        assert bit_strength_gcm_auth(key) == strength
