@@ -8,6 +8,7 @@ from Crypto.Random import random
 
 # Utility Functions ############################################################
 
+
 def gf_2_128_mul(x, y):
     assert x < (1 << 128)
     assert y < (1 << 128)
@@ -21,12 +22,12 @@ def gf_2_128_mul(x, y):
 
 def gf_2_128_exp(x, n):
     if n == 0:
-        return (1<<127)
+        return (1 << 127)
     q, r = divmod(n, 2)
     if r == 1:
         return gf_2_128_mul(x, gf_2_128_exp(gf_2_128_mul(x, x), q))
     else:
-        return                 gf_2_128_exp(gf_2_128_mul(x, x), q)
+        return gf_2_128_exp(gf_2_128_mul(x, x), q)
 
 
 def gf_2_128_order(x):
@@ -34,14 +35,15 @@ def gf_2_128_order(x):
     order = 1
     for factor in factors:
         n = ((1 << 128) - 1) // factor
-        if gf_2_128_exp(x, n) != (1<<127):
+        if gf_2_128_exp(x, n) != (1 << 127):
             order *= factor
     return order
 
 
 # ##############################################################################
-    
+
 THRESHOLD_DEFAULT = 126
+
 
 def bit_strength_gcm_auth(key):
     c = AES.new(key, AES.MODE_ECB)
@@ -49,9 +51,10 @@ def bit_strength_gcm_auth(key):
     group_order = gf_2_128_order(h)
     return group_order.bit_length() - 1
 
+
 def is_key_safe(key, threshold=THRESHOLD_DEFAULT):
     """
-    Expects an AES key as a binary string and a threshold which should be a 
+    Expects an AES key as a binary string and a threshold which should be a
     number between 1 and 128. It roughly measures the number of bits of security
     that the key is required to have in GCM.
 
@@ -62,7 +65,7 @@ def is_key_safe(key, threshold=THRESHOLD_DEFAULT):
     See also the wikipedia page on GCM, second paragraph:
     https://en.wikipedia.org/wiki/Galois/Counter_Mode#Security
     """
-    # Threshold should be a number between 1 and 128. 
+    # Threshold should be a number between 1 and 128.
     assert threshold >= 1
     assert threshold <= 128
     return bit_strength_gcm_auth(key) >= threshold
