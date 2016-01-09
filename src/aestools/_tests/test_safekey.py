@@ -25,4 +25,3 @@ def test_get_safe_key_invalid():
         get_safe_key(0)
     with pytest.raises(AssertionError):
         get_safe_key(512)
-
