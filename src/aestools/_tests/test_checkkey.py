@@ -8,14 +8,14 @@ THRESHOLD = 126
 
 KEYS_STRENGTHS = [
     # keys and strengths as mentioned in the paper
-    ('000000000000000000000000EC697AA8', 93),  # note: keep a weak key at idx 0
+    ('000000000000000000000000EC697AA8', 93),   # note: keep a weak key at idx 0
     ('00000000000000000000000000000002', 126),
     ('00000000000000000000000000000003', 125),
     ('000000000000000000000000243E8B40', 96),
     ('0000000000000000000000003748CFCE', 96),
     ('00000000000000000000000042873CC8', 93),
     # an arbitrary strong key
-    ('fedeec1234567800aabbccddeeff4223', 127), # note: keep strong key at idx -1
+    ('fedeec1234567800aabbccddeeff4223', 127),  # note: keep strong key at idx -1
 ]
 KEYS_STRENGTHS = [(unhexlify(k), s) for k, s in KEYS_STRENGTHS]
 
