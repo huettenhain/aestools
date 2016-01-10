@@ -8,7 +8,7 @@ import argparse
 from binascii import hexlify, unhexlify
 import sys
 
-from aestools.checkkey import is_key_safe, selftest
+from aestools.checkkey import is_key_safe, selftest, THRESHOLD_DEFAULT
 from aestools.safekey import get_safe_key
 
 
@@ -42,6 +42,8 @@ def main():
     parser_check = subparsers.add_parser('check', help='check an AES GCM key')
     parser_check.add_argument('key', type=valid_key,
                               help='key in hex representation')
+    parser_check.add_argument('--threshold', dest='threshold', type=int,
+                              default=THRESHOLD_DEFAULT, help='safety threshold')
     parser_generate = subparsers.add_parser('generate', help='generate a safe AES GCM key')
     parser_generate.add_argument('bits', type=valid_bits,
                                  help='key length, 128 or 256')
@@ -49,7 +51,7 @@ def main():
 
     if args.cmd == 'check':
         selftest()
-        safe = is_key_safe(args.key)
+        safe = is_key_safe(args.key, args.threshold)
         print("%s is safe: %r" % (hexlify(args.key).decode('ascii'), safe))
         return 0 if safe else 1
 
