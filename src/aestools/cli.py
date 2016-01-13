@@ -8,7 +8,7 @@ import argparse
 from binascii import hexlify, unhexlify
 import sys
 
-from aestools.checkkey import is_key_safe, selftest, THRESHOLD_DEFAULT
+from aestools.checkkey import is_key_safe, selftest, THRESHOLD_DEFAULT, bit_strength_gcm_auth
 from aestools.safekey import get_safe_key
 
 
@@ -57,8 +57,9 @@ def main():
 
     if args.cmd == 'check':
         selftest()
-        safe = is_key_safe(args.key, args.threshold)
-        print("%s is safe: %r" % (hexlify(args.key).decode('ascii'), safe))
+        strength = bit_strength_gcm_auth(args.key)
+        safe = strength >= args.threshold
+        print("%s is safe: %r (%i bits security)" % (hexlify(args.key).decode('ascii'), safe, strength))
         return 0 if safe else 1
 
     if args.cmd == 'generate':
