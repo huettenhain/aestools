@@ -37,12 +37,18 @@ def valid_bits(s):
 
 
 def main():
+    def valid_threshold(value):
+        value = int(value)
+        if 0 < value <= 128:
+            return value
+        raise argparse.ArgumentTypeError('%i is not a valid threshold (must be between 1 and 128)')
+
     parser = argparse.ArgumentParser(description='AES tools')
     subparsers = parser.add_subparsers(dest='cmd', help='sub-command help')
     parser_check = subparsers.add_parser('check', help='check an AES GCM key')
     parser_check.add_argument('key', type=valid_key,
                               help='key in hex representation')
-    parser_check.add_argument('--threshold', dest='threshold', type=int,
+    parser_check.add_argument('--threshold', dest='threshold', type=valid_threshold,
                               default=THRESHOLD_DEFAULT, help='safety threshold')
     parser_generate = subparsers.add_parser('generate', help='generate a safe AES GCM key')
     parser_generate.add_argument('bits', type=valid_bits,
