@@ -3,8 +3,7 @@ Test for weak AES GCM keys.
 """
 
 from Crypto.Cipher import AES
-from Crypto.Util.number import bytes_to_long, long_to_bytes
-from Crypto.Random import random
+from Crypto.Util.number import bytes_to_long
 
 # Utility Functions ############################################################
 
